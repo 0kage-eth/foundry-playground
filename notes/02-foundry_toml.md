@@ -33,3 +33,27 @@ To remove package, we can type following command
 ```
     $forge remove solmate
 ```
+
+To add a new npm package, we can do the following
+
+```
+    $yarn add @openzeppelin/contracts
+```
+
+Now, to tell forge the location of the openzeppelin library, we create a file called `remappings.txt`
+
+```
+    $touch remappings.txt
+```
+
+Once done, we then create a remapping inside this
+
+```
+    @openzeppelin/ = node_modules/@openzeppelin
+```
+
+This tells foundry to look for files in specific location -> we can now go and call for a specific file,
+
+```
+    import "@openzeppelin/contracts/access/Ownabale.sol"
+```
