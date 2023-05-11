@@ -108,3 +108,5 @@ Setup using any of 3 methods
 ### Handler based Testing
 
 - In open testing, sometimes functions don't have the right state to execute -> in such cases, every fuzzing call will revert (and hence return true when `fail_on_revert` is set to false). For eg, if a contract has a deposit function that is supposed to be accessed by a user, each fuzzing call to this function will fail because there might not be enough token balance or the contracts do not have correct approvals. In such cases, a router that can setup correct parameters for testing is needed. This is calledthe `handler` contract
+
+- In [InvariantBasicERC4626DepositHandler.t.sol](../test/invariants/InvariantBasicERC4626DepositHandler.t.sol), we have defined a handler that defines a `deposit` function -> this function adds an additional logic of minting tokens, assigning approval of token to `BasicERC4626Deposit` contract and then calling the `deposit` function. By doing this intermediate step, the router is ensuring that all calls are valid calls with necessary approvals and token balances in place.
