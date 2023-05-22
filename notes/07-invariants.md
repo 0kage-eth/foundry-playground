@@ -110,3 +110,14 @@ Setup using any of 3 methods
 - In open testing, sometimes functions don't have the right state to execute -> in such cases, every fuzzing call will revert (and hence return true when `fail_on_revert` is set to false). For eg, if a contract has a deposit function that is supposed to be accessed by a user, each fuzzing call to this function will fail because there might not be enough token balance or the contracts do not have correct approvals. In such cases, a router that can setup correct parameters for testing is needed. This is calledthe `handler` contract
 
 - In [InvariantBasicERC4626DepositHandler.t.sol](../test/invariants/InvariantBasicERC4626DepositHandler.t.sol), we have defined a handler that defines a `deposit` function -> this function adds an additional logic of minting tokens, assigning approval of token to `BasicERC4626Deposit` contract and then calling the `deposit` function. By doing this intermediate step, the router is ensuring that all calls are valid calls with necessary approvals and token balances in place.
+
+### Ghost variables
+
+- ghost variables are needed to keep track of intermediate states in a handler
+- For eg., in a deposits function, we need to track the total number of depositors or the maximum deposit per vault owner -> in this case, we need to keep track of these variables, typically inside a handler contract
+- For convention, prefix ghost variables with `ghost_`. This will allow us to
+
+### Finer points
+
+- During invariant test, fuzzer generates random call sequences and calldata
+- However, msg.value is not fuzzed by fuzzer
