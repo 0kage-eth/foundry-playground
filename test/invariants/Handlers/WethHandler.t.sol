@@ -45,8 +45,6 @@ contract WethHandler is CommonBase, StdCheats, StdUtils{
         ghost_depositSum += amount;
     }
 
-
-
     function transferWeth(uint256 amount, address alice, address bob) external{
         amount = bound(amount, 0, 1000 ether);
         vm.deal(alice, amount);
@@ -77,8 +75,10 @@ contract WethHandler is CommonBase, StdCheats, StdUtils{
     }
 
     function _pay(address receiver, uint256 amount) internal {
-        (bool success, ) = address(receiver).call("");
+        if(amount > 0){
+       (bool success, ) = receiver.call{value: amount}("");
         require(success, "payment from handler failed");
-    }
+        }
+     }
 
 }

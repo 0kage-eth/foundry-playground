@@ -15,6 +15,12 @@ contract TestWallet is Test {
         alice = address(952);
         bob = address(999);
     }
+    event Deposit(address depositor, uint256 deposit);
+    function _sendEth(uint256 amount) internal  {
+        require(amount <= address(this).balance, "insufficient balance");
+        (bool success, ) = address(wallet).call{value: amount}("");
+        require(success, "transfer failed");
+    }
 
     function testWalletBalance() external{
         assertEq(address(wallet).balance, 10 ether);
@@ -60,4 +66,47 @@ contract TestWallet is Test {
         uint256 balanceAfter = address(this).balance;
         assertEq(balanceBefore + 0.5 ether, balanceAfter);
     }
+
+    function testSendEthEmitsDeposit() external{
+        uint256 amount = 1 ether;
+        vm.expectEmit(true, true, false, false);
+        emit Deposit(address(this), amount);
+        _sendEth(amount);
+    }
+
+    function testSendEthIncreasesWalletBalance() external {
+        uint256 amount = 1 ether;
+        uint256 balanceBefore = address(wallet).balance;
+        _sendEth(amount);
+        uint256 balanceAfter = address(wallet).balance;
+        assertEq(balanceAfter - balanceBefore, amount);        
+    }
+
+
+    function testSendEthDecreasesSenderBalance() external{
+        uint256 amount = 1 ether;
+        vm.deal(alice, amount);
+
+        uint256 aliceBalanceBefore = address(alice).balance;
+        uint256 walletBalanceBefore = address(wallet).balance;
+        vm.prank(alice);
+        _sendEth(amount);
+        uint256 aliceBalanceAfter = address(alice).balance;
+        uint256 walletBalanceAfter = address(wallet).balance;
+
+        assertEq(aliceBalanceBefore - aliceBalanceAfter, amount);
+        assertEq(walletBalanceAfter- walletBalanceBefore, amount);
+    }
+
+    function testSendEthUsingHoax() external{
+
+        hoax(alice, 10 ether);
+
+        vm.expectEmit(false, false, false, false);
+        emit Deposit(alice, 10 ether);
+        _sendEth(10 ether);
+
+    }
+
+
 }

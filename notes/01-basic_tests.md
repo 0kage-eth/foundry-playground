@@ -6,6 +6,10 @@
 
 `forge test --match-contract <contract name>`
 
+- To test a particular function in a test contract
+
+`forge test --match-contract <contract name> --match-test <test name>`
+
 - To get a verbose representation of all test summary, we can use anywhere from `-v` to `-vvvv`
 
 - To run all tests in a given file path

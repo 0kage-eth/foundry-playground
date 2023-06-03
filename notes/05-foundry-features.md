@@ -56,3 +56,13 @@ _Step 3_ - Call the function that emits actual event
 - To increase current time by `N` seconds, we use `vm.skip(N)`
 - To decrease current time by `N` seconds, we use `vm.rewind(N)`
 - To move to a specific block number `B`, we use `vm.roll(B)`
+
+---
+
+### Persistent
+
+- To make contracts persistent across tests, we can use `vm.makePersistent(<contract address>)`
+
+```
+vm.makePersistent(address(WETH))
+```
