@@ -1,4 +1,4 @@
-## Invariant testing
+# Invariant testing
 
 ### Intro
 

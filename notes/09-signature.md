@@ -1,3 +1,5 @@
+# Working with Signatures
+
 - Foundry has a built in function to sign a message & check signature
 
 - To sign a message, we need a private key and the hash of the messsage

@@ -5,7 +5,8 @@ pragma solidity 0.8.17;
 import "forge-std/Test.sol";
 import "../src/interfaces/IERC20.sol";
 
-//alchemy url - https://eth-mainnet.g.alchemy.com/v2/Zv64VRt8gJpXcz987ld3JVYXLtdVlxUZ
+//You need a mainnet fork url - if you don't have one already, create it for free on alchemy
+
 contract MintDaiOnMainnetForkTest is Test{
 
     // dai contract
