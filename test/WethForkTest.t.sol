@@ -34,8 +34,6 @@ contract TestWethOnMainnet is Test{
 
     function setUp() external{
        weth = IWeth(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
-
-    
     }
 
     function testTotalSupply() external{
@@ -58,7 +56,7 @@ contract TestWethOnMainnet is Test{
         vm.prank(alice);
         weth.deposit{value: depositEth}();
         assertEq(address(weth).balance - wethBalanceBefore, depositEth);
-        
+
     }
 }
 
